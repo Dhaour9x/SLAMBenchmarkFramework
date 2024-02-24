@@ -12,19 +12,8 @@ import skimage.io as io
 import matplotlib.image as mpimg
 
 import cv2
+import os
 
-Img_Original = cv2.imread(r"ground.png", 0)
-_, thresh = cv2.threshold(Img_Original, 128, 255, cv2.THRESH_BINARY)
-
-#cv2.imwrite("your_nwe_image.bmp", thresh)
-
-"load image data"
-#Img_Original =  io.imread( 'test.jpeg')      # Gray image, rgb images need pre-conversion
-
-"Convert gray images to binary images using Otsu's method"
-from skimage.filters import threshold_otsu
-Otsu_Threshold = threshold_otsu(Img_Original)   
-BW_Original = Img_Original < Otsu_Threshold    # must set object region as 1, background region as 0 !
 
 def neighbours(x,y,image):
     "Return 8-neighbours of image point P1(x,y), in a clockwise order"
@@ -74,16 +63,25 @@ def zhangSuen(image):
  
 
 "Apply the algorithm on images"
-BW_Skeleton = zhangSuen(BW_Original)
-mpimg.imsave('savedimage1.png',BW_Skeleton, cmap=plt.cm.gray_r)  
-# BW_Skeleton = BW_Original
-"Display the results"
-fig, ax = plt.subplots(1, 2)
-ax1, ax2 = ax.ravel()
-ax1.imshow(BW_Original, cmap=plt.cm.gray_r)
-ax1.set_title('Original binary image')
-ax1.axis('off')
-ax2.imshow(BW_Skeleton, cmap=plt.cm.gray_r)
-ax2.set_title('Skeleton of the image')
-ax2.axis('off')
-plt.show()
+def run_zhangSuen(img_path):
+
+    Img_Original = cv2.imread(img_path, 0)
+    _, thresh = cv2.threshold(Img_Original, 128, 255, cv2.THRESH_BINARY)
+    print('img_path',img_path, Img_Original)
+
+    #cv2.imwrite("your_nwe_image.bmp", thresh)
+
+    "load image data"
+    #Img_Original =  io.imread( 'test.jpeg')      # Gray image, rgb images need pre-conversion
+
+    "Convert gray images to binary images using Otsu's method"
+    from skimage.filters import threshold_otsu
+    Otsu_Threshold = threshold_otsu(Img_Original)   
+    BW_Original = Img_Original < Otsu_Threshold    # must set object region as 1, background region as 0 !
+
+
+    BW_Skeleton = zhangSuen(BW_Original)
+    mpimg.imsave('savedimage1.png',BW_Skeleton, cmap=plt.cm.gray_r)
+    saved_image_path = os.path.join(os.getcwd(), 'savedimage1.png')
+    print('saved_image_path',saved_image_path)
+    return saved_image_path

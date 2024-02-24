@@ -1,5 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, filedialog
+from  Preprocessing.thinig_zhang2 import run_zhangSuen
+from  Preprocessing.imRegister import registration_function
+from PIL import Image
 
 
 class SLAMBenchmarkUI:
@@ -82,13 +85,21 @@ class SLAMBenchmarkUI:
             self.slam_map_path.set(file_path)
 
     def run_image_registration(self):
-        # Implement image registration logic here
-        print("Running Image Registration...")
+        img_path1 = self.ground_truth_map_path.get()
+        img_path2 = self.slam_map_path.get()
+        if img_path1 and img_path2:
+            saved_image_path = registration_function(img_path1, img_path2)
+            im = Image.open(saved_image_path)
+            im.show()
+
 
     def run_thinning_operation(self):
-        # Implement thinning operation logic here
-        print("Running Thinning Operation...")
-
+        gmp = self.ground_truth_map_path.get()
+        print('gmp',gmp, type(gmp))
+        if gmp :
+            saved_image_path = run_zhangSuen(gmp)
+            im = Image.open(saved_image_path)
+            im.show()
     def update_comparison_method(self, *args):
         # Update the available comparison methods based on the selected type
         comparison_type = self.comparison_type_var.get()
