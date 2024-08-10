@@ -64,4 +64,4 @@ This project is licensed under the MIT License.
 
 7. Contact
 
-For inquiries, please contact `dhaouiriadh7@gmail.com`
+For inquiries, please contact `riadh.dhaoui@rub.de`
